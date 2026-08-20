@@ -7,7 +7,6 @@ import { TAGS } from '../constants/TAGS.js';
 const canvasSchema = new Schema(
   {
     title: { type: String, required: true, trim: true },
-    //  trim: true, // прибирає пробіли на початку та в кінці
     year: { type: Number, required: false },
     materials: {
       type: String,
@@ -15,18 +14,16 @@ const canvasSchema = new Schema(
       enum: MATERIALS, // перелік допустимих значень
     },
     tag: { type: String, required: false, enum: TAGS },
-    imageUrl: { type: String, required: false },
+    imageUrl: { type: String, required: true },
   },
   {
     timestamps: true,
     versionKey: false,
   },
 );
-/*
-default — значення за замовчуванням, якщо поле не передано.
 
-timestamps — автоматично додає createdAt і updatedAt.
-*/
+// текстові індекси:
+canvasSchema.index({ title: 1, tag: 1 });
 
 // Додаємо текстовий індекс: кажемо MongoDB, що по полю title можна робити $text
 canvasSchema.index(

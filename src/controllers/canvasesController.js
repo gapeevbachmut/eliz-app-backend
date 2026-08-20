@@ -2,15 +2,20 @@ import createHttpError from 'http-errors';
 import { Canvas } from '../models/canvas.js';
 
 export const getCanvases = async (req, res) => {
-  // Отримуємо параметри пагінації
+  // вказую параметри пагінації
   const {
     page = 1,
     perPage = 10,
-    title,
+
+    //додаю параметри для фільтрації
     year,
-    tag,
     materials,
+
+    //параметри для пошуку - title + tag
     search,
+
+    // сортування - вказуємо параметри
+    // дефолтне сортування за year
     sortBy = 'year',
     sortOrder = 'desc',
   } = req.query;
@@ -20,43 +25,40 @@ export const getCanvases = async (req, res) => {
 
   const skip = (pageNum - 1) * perPageNum;
 
-  const filter = {};
+  // базовий запит до колекції
+
+  const canvasQuery = Canvas.find();
 
   // Будую фільтр
-  if (title) {
-    filter.title = { $regex: title, $options: 'i' };
-  }
-
-  if (tag) {
-    filter.tag = { $regex: tag, $options: 'i' };
-  }
-
   if (materials) {
-    filter.materials = { $regex: materials, $options: 'i' };
+    canvasQuery.where({ materials: { $regex: materials, $options: 'i' } });
   }
 
   if (year) {
-    filter.year = Number(year);
+    (await canvasQuery.where('year')).length(year);
   }
-  if (search) {
-    // Текстовий пошук  (працює лише якщо створено текстовий індекс)
-    // filter({ $text: { $search: search } }); //шукає тільки слова
 
-    filter.$or = [
+  // Пошук по частині
+  if (search) {
+    canvasQuery.where(
       { title: { $regex: search, $options: 'i' } },
-      { materials: { $regex: search, $options: 'i' } },
       { tag: { $regex: search, $options: 'i' } },
-    ]; //знайди підрядок у полі
-    //тоді text index не використовується
+      { materials: { $regex: search, $options: 'i' } },
+    );
   }
+
   // $regex не використовує індекс. Це означає, що для великих колекцій такий пошук значно повільніший.
 
   // Пагінація + сортування
   const [totalItems, canvases] = await Promise.all([
-    Canvas.countDocuments(filter),
-    Canvas.find(filter)
+    canvasQuery.clone().countDocuments(),
+    // .countDocuments() — підраховує загальну кількість студентів у колекції.
+
+    canvasQuery
       .skip(skip)
       .limit(perPageNum)
+      // .skip(skip).limit(perPage) — повертає тільки ту частину студентів, яка відповідає потрібній сторінці.
+
       // Додамєдо сортування в ланцюжок методів квері
       .sort({ [sortBy]: sortOrder }),
   ]);

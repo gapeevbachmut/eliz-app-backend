@@ -51,14 +51,13 @@ const bodySchema = Joi.object({
     }),
   email: Joi.string()
     .email()
-    // .required()
     .messages({ 'any.required': "Пошта не обов'язкова" }),
   age: Joi.number().integer().min(12).max(95).required().messages({
     // 12 років - 95 років
-    'number.base': 'Age must be a number',
-    'number.min': 'Age must be at least {#limit}',
-    'number.max': 'Age must be at most {#limit}',
-    'any.required': 'Age is required',
+    'number.base': 'Вік повинно бути числом',
+    'number.min': 'щонайменше {#limit} символів',
+    'number.max': 'щонайбільше {#limit} символів',
+    'any.required': "обов'язкове поле",
   }),
   role: Joi.string()
     // .required()

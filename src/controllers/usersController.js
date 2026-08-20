@@ -16,8 +16,8 @@ export const getUsers = async (req, res) => {
     maxAge,
     role,
 
-    // username,
-    // email,
+    // сортування - вказуємо параметри
+    // дефолтне сортування за name
     sortBy = 'username',
     sortOrder = 'asc',
   } = req.query;
@@ -61,7 +61,7 @@ export const getUsers = async (req, res) => {
     // .countDocuments() — підраховує загальну кількість студентів у колекції.
     usersQuery
       .skip(skip)
-      .limit(perPage)
+      .limit(perPageNum)
       // .skip(skip).limit(perPage) — повертає тільки ту частину студентів, яка відповідає потрібній сторінці.
       // Додаємо сортування в ланцюжок методів квері
       .sort({ [sortBy]: sortOrder }),
@@ -110,13 +110,12 @@ export const deleteUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   const { userId } = req.params;
   const user = await User.findOneAndUpdate(
-    {
-      _id: userId,
-    }, // Шукаємо по id
+    { _id: userId },
+    // Шукаємо по id
     req.body,
     {
-      // returnDocument: 'after',
-      new: true,
+      returnDocument: 'after',
+      // or:  new: true,
     }, // повертаємо оновлений документ
   );
 
