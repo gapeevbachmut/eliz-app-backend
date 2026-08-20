@@ -1,0 +1,31 @@
+{
+  "name": "eliz-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.2.0",
+    "globals": "^17.4.0",
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "celebrate": "^15.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.1",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "http-errors": "^2.0.1",
+    "mongoose": "^9.4.1",
+    "pino-http": "^11.0.0",
+    "pino-pretty": "^13.1.3"
+  }
+}
