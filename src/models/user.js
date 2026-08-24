@@ -53,11 +53,11 @@ userSchema.methods.toJSON = function () {
 
 // Унікальний email тільки для документів,
 // у яких email присутній
-userSchema.index({ email: 1 }, { unique: true, sparse: true });
+// userSchema.index({ email: 1 }, { unique: true, sparse: true });
 
 // Індекси у MongoDB для пошуку - усі властивості по яких шукаємо/ фільтруємо
 // Індекс для фільтрації за віком
-userSchema.index({ age: 1 });
+// userSchema.index({ age: 1 });
 /**не треба створювати індекс на кожне поле тільки тому, що по ньому є фільтр. */
 
 // Додаємо текстовий індекс: кажемо MongoDB, що по полю username можна робити $text

@@ -32,10 +32,12 @@ export const getUsers = async (req, res) => {
 
   // Пошук по частині імені
   if (search) {
-    usersQuery.where(
-      { username: { $regex: search, $options: 'i' } },
-      { email: { $regex: search, $options: 'i' } },
-    );
+    usersQuery.where({
+      $or: [
+        { username: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+      ],
+    });
   }
 
   // Будую фільтр

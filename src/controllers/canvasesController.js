@@ -40,11 +40,13 @@ export const getCanvases = async (req, res) => {
 
   // Пошук по частині
   if (search) {
-    canvasQuery.where(
-      { title: { $regex: search, $options: 'i' } },
-      { tag: { $regex: search, $options: 'i' } },
-      { materials: { $regex: search, $options: 'i' } },
-    );
+    canvasQuery.where({
+      $or: [
+        { title: { $regex: search, $options: 'i' } },
+        { tag: { $regex: search, $options: 'i' } },
+        { materials: { $regex: search, $options: 'i' } },
+      ],
+    });
   }
 
   // $regex не використовує індекс. Це означає, що для великих колекцій такий пошук значно повільніший.
