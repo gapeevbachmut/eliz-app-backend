@@ -10,6 +10,7 @@ import canvasesRoutes from './routes/canvasesRoutes.js';
 import usersRoutes from './routes/usersRoutes.js';
 import { errors } from 'celebrate';
 import helmet from 'helmet';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 
@@ -23,13 +24,7 @@ app.use(express.json()); // Middleware для парсингу JSON
 app.use(helmet()); //  це для безпеки
 app.use(cors()); // Дозволяє запити з будь-яких джерел/доменів
 
-//-----------------------------------------//
-
-// Логування часу
-app.use((req, res, next) => {
-  console.log(`Time: ${new Date().toLocaleString()}`);
-  next();
-});
+//--------------------------------------//
 
 // Перший маршрут
 app.get('/', (req, res) => {
@@ -37,6 +32,7 @@ app.get('/', (req, res) => {
 });
 
 // Маршрути
+app.use(authRoutes);
 app.use(canvasesRoutes);
 app.use(usersRoutes);
 

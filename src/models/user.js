@@ -12,7 +12,7 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      required: false,
+      required: true,
       trim: true,
     },
     age: {
@@ -22,11 +22,12 @@ const userSchema = new Schema(
     role: {
       type: String,
       enum: ROLE,
+      default: 'user',
     },
     avatar: { type: String, required: false, trim: true },
     password: {
       type: String,
-      required: false,
+      required: true,
     },
   },
   { timestamps: true, versionKey: false },
