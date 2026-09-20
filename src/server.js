@@ -11,6 +11,7 @@ import usersRoutes from './routes/usersRoutes.js';
 import { errors } from 'celebrate';
 import helmet from 'helmet';
 import authRoutes from './routes/authRoutes.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -18,11 +19,12 @@ const app = express();
 const PORT = process.env.PORT ?? 3000;
 
 // Глобальні middleware
-app.use(logger);
+app.use(logger); // Логер першим — бачить усі запити
 app.use(express.json()); // Middleware для парсингу JSON
 // {  limit: '100kb'} // максимум 100 кілобайт
-app.use(helmet()); //  це для безпеки
 app.use(cors()); // Дозволяє запити з будь-яких джерел/доменів
+app.use(helmet()); //  це для безпеки
+app.use(cookieParser());
 
 //--------------------------------------//
 
