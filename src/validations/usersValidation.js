@@ -40,25 +40,21 @@ const bodySchema = Joi.object({
     .pattern(/^[a-zA-Zа-яА-ЯіїєґІЇЄҐ0-9 ]+$/)
     .min(3)
     .max(30)
-    .required()
     .messages({
       'string.base': "Ім'я повинно бути рядком.",
-      'string.empty': "Ім'я не може бути пустим.",
       'string.pattern.base': "Ім'я може містити тільки букви та цифри.",
       'string.min': "Ім'я повинно містити щонайменше {#limit} символів",
       'string.max': "Ім'я повинно містити щонайбільше {#limit} символів",
-      'any.required': "Ім'я обов'язкове",
     }),
   email: Joi.string().email().required().messages({
-    'string.base': 'Пошта повинна бути рядком',
+    'string.base': 'Пошта повинна бути ...',
     'any.required': "Пошта обов'язкова",
   }),
-  age: Joi.number().integer().min(12).max(100).required().messages({
+  age: Joi.number().integer().min(12).max(100).messages({
     // 12 років - 95 років
     'number.base': 'Вік повинно бути числом',
-    'number.min': 'щонайменше {#limit} символів',
-    'number.max': 'щонайбільше {#limit} символів',
-    'any.required': "обов'язкове поле",
+    'number.min': 'щонайменше {#limit} років',
+    'number.max': 'щонайбільше {#limit} років',
   }),
   role: Joi.string()
     .default('user')

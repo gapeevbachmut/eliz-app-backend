@@ -7,13 +7,13 @@ const userSchema = new Schema(
   {
     username: {
       type: String,
-      required: true,
       trim: true, // прибирає пробіли на початку та в кінці
     },
     email: {
       type: String,
       required: true,
       trim: true,
+      unique: true, // унікальне поле
     },
     age: {
       type: Number,
@@ -35,12 +35,12 @@ const userSchema = new Schema(
 
 //   //  якщо username — необов`язкове поле.
 //   // За замовчуванням воно дорівнює email користувача
-// userSchema.pre('save', function () {
-//   if (!this.username) {
-//     this.username = this.email;
-//   }
-//   // next();
-// });
+userSchema.pre('save', function () {
+  if (!this.username) {
+    this.username = this.email;
+  }
+  // next();
+});
 
 //  Видалення паролю з відповіді
 // Перевизначаємо метод toJSON

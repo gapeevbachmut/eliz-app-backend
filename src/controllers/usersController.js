@@ -95,11 +95,11 @@ export const getUserById = async (req, res) => {
 };
 
 // це треба видалити - створення буде через auth
-export const createUser = async (req, res) => {
-  const user = await User.create(req.body);
+// export const createUser = async (req, res) => {
+//   const user = await User.create(req.body);
 
-  res.status(201).json(user);
-};
+//   res.status(201).json(user);
+// };
 
 export const deleteUser = async (req, res) => {
   const { userId } = req.params;
